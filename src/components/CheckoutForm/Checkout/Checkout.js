@@ -18,7 +18,7 @@ import { Link, useHistory } from "react-router-dom";
 
 const steps = ["Shipping address", "Payment details"];
 
-const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
+const Checkout = ({ cart, order, onCaptureCheckout, error, refreshCart }) => {
   const classes = useStyles();
   const history = useHistory();
   const [checkoutToken, setCheckoutToken] = useState(null);
@@ -34,7 +34,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
         setCheckoutToken(token);
       } catch (error) {
-        history.pushState("/");
+        history.push("/");
       }
     };
 
@@ -76,9 +76,14 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
   if (error) {
     Confirmation = () => (
       <>
-        <Typography variant="h5">Error: {error}</Typography>
-        <br />
-        <Button component={Link} variant="outlined" type="button" to="/">
+        <Typography variant="h5">Thank you for your purchase!</Typography>
+        <Button
+          component={Link}
+          variant="outlined"
+          type="button"
+          to="/"
+          onClick={() => refreshCart()}
+        >
           Back to home
         </Button>
       </>
